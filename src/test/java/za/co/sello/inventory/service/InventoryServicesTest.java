@@ -2,8 +2,7 @@ package za.co.sello.inventory.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import za.co.sello.inventory.exception.InsufficientStockException;
-import za.co.sello.inventory.exception.InvalidStockMovementException;
+import za.co.sello.inventory.exception.*;
 import za.co.sello.inventory.model.*;
 import za.co.sello.inventory.repository.ProductRepository;
 import za.co.sello.inventory.repository.StockMovementRepository;
@@ -136,6 +135,22 @@ class InventoryServiceTest {
                         10,
                         "Sello"
                 )
+        );
+    }
+
+    @Test
+    void shouldRejectDuplicateSku() {
+        Category category = new Category("Fruits");
+
+        Product duplicate = new Product(
+                "Banana",
+                "123456",
+                category
+        );
+
+        assertThrows(
+                DuplicateProductException.class,
+                () -> inventoryService.addProduct(duplicate)
         );
     }
 }
