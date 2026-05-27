@@ -1,21 +1,28 @@
 package za.co.sello.inventory.service;
 
 import za.co.sello.inventory.model.*;
+import za.co.sello.inventory.repository.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class InventoryServices {
 
-    private final List<Product> products = new ArrayList<>();
-    private final List<StockMovement> movements = new ArrayList<>();
+    private final ProductRepository productRepository;
+    private final StockMovementRepository stockMovementRepository;
+
+    public InventoryServices(ProductRepository productRepository,
+                            StockMovementRepository stockMovementRepository) {
+        this.productRepository = productRepository;
+        this.stockMovementRepository = stockMovementRepository;
+    }
 
     public void addProduct(Product product) {
-        products.add(product);
+        productRepository.save(product);
     }
 
     public List<Product> getProducts() {
-        return products;
+        return productRepository.findAll();
     }
 
     public StockMovement recordStockIn(Product product,
@@ -33,7 +40,7 @@ public class InventoryServices {
                 createdBy
         );
 
-        movements.add(movement);
+        stockMovementRepository.save(movement);
         return movement;
     }
 
@@ -58,14 +65,14 @@ public class InventoryServices {
                 createdBy
         );
 
-        movements.add(movement);
+        stockMovementRepository.save(movement);
         return movement;
     }
 
     public int getCurrentStock(UUID productId, UUID locationId) {
         int total = 0;
 
-        for (StockMovement movement : movements) {
+        for (StockMovement movement : stockMovementRepository.findAll()) {
             boolean sameProduct = movement.getProduct().getId().equals(productId);
             boolean sameLocation = movement.getLocation().getId().equals(locationId);
 
@@ -84,7 +91,7 @@ public class InventoryServices {
     public List<StockMovement> getMovementHistory(Product product) {
         List<StockMovement> history = new ArrayList<>();
 
-        for (StockMovement movement : movements) {
+        for (StockMovement movement : stockMovementRepository.findAll()) {
             if (movement.getProduct().getId().equals(product.getId())) {
                 history.add(movement);
             }
