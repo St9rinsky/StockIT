@@ -153,4 +153,19 @@ class InventoryServiceTest {
                 () -> inventoryService.addProduct(duplicate)
         );
     }
+
+    @Test
+    void shouldFindProductBySku() {
+        Product found = inventoryService.getProductBySku("123456");
+
+        assertEquals(product.getId(), found.getId());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenProductSkuDoesNotExist() {
+        assertThrows(
+                ProductNotFoundException.class,
+                () -> inventoryService.getProductBySku("nothing")
+        );
+    }
 }
