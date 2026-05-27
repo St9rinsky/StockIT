@@ -1,5 +1,6 @@
 package za.co.sello.inventory.repository;
 
+import za.co.sello.inventory.exception.InvalidStockMovementException;
 import za.co.sello.inventory.model.Product;
 
 import java.util.ArrayList;
@@ -23,4 +24,11 @@ public class ProductRepository {
                 .filter(product -> product.getId().equals(id))
                 .findFirst();
     }
+
+    public boolean existsBySku(String sku) {
+        return products.stream()
+                .anyMatch(product -> product.getSku().equalsIgnoreCase(sku));
+    }
+
+    //validators
 }
