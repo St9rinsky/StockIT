@@ -19,6 +19,12 @@ public class InventoryServices {
     }
 
     public void addProduct(Product product) {
+        validateProduct(product);
+        if (productRepository.existsBySku(product.getSku())) {
+            throw new DuplicateProductException(
+                    "Product with SKU already exists: " + product.getSku()
+            );
+        }
         productRepository.save(product);
     }
 
@@ -121,6 +127,14 @@ public class InventoryServices {
 
     private void validateProduct(Product product) {
         if (product == null) {throw new InvalidStockMovementException("Product cannot be null.");}
+
+        if (product.getName() == null || product.getName().isBlank()) {
+            throw new InvalidStockMovementException("Product name cannot be blank.");
+        }
+
+        if (product.getSku() == null || product.getSku().isBlank()) {
+            throw new InvalidStockMovementException("Product SKU cannot be blank.");
+        }
     }
 
     private void validateLocation(Location location) {
