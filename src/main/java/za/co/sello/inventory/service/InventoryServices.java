@@ -32,6 +32,13 @@ public class InventoryServices {
         return productRepository.findAll();
     }
 
+    public Product getProductBySku(String sku) {
+        return productRepository.findBySku(sku)
+                .orElseThrow(() -> new ProductNotFoundException(
+                        "Product not found with SKU: " + sku
+                ));
+    }
+
     public StockMovement recordStockIn(Product product,
                                        Location location,
                                        StockMovementReason reason,
