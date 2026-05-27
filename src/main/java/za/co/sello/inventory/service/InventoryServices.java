@@ -1,5 +1,6 @@
 package za.co.sello.inventory.service;
 
+import za.co.sello.inventory.exception.*;
 import za.co.sello.inventory.model.*;
 import za.co.sello.inventory.repository.*;
 import java.util.ArrayList;
@@ -30,7 +31,11 @@ public class InventoryServices {
                                        StockMovementReason reason,
                                        int quantity,
                                        String createdBy) {
-
+        validateQuantity(quantity);
+        validateCreator(createdBy);
+        validateProduct(product);
+        validateLocation(location);
+        validateReason(reason);
         StockMovement movement = new StockMovement(
                 product,
                 location,
@@ -49,11 +54,15 @@ public class InventoryServices {
                                         StockMovementReason reason,
                                         int quantity,
                                         String createdBy) {
-
+        validateQuantity(quantity);
+        validateCreator(createdBy);
+        validateProduct(product);
+        validateLocation(location);
+        validateReason(reason);
         int currentStock = getCurrentStock(product.getId(), location.getId());
 
         if (quantity > currentStock) {
-            throw new IllegalArgumentException("Cannot remove more stock than available.");
+            throw new InsufficientStockException("Cannot remove more stock than available.");
         }
 
         StockMovement movement = new StockMovement(
@@ -98,5 +107,27 @@ public class InventoryServices {
         }
 
         return history;
+    }
+
+
+    //Validations
+    private void validateQuantity(int quantity) {
+        if (quantity <= 0) {throw new InvalidStockMovementException("Quantity must be greater than zero.");}
+    }
+
+    private void validateCreator(String name) {
+        if (name == null || name.isBlank()) {throw new InvalidStockMovementException("Creator name cannot be null.");}
+    }
+
+    private void validateProduct(Product product) {
+        if (product == null) {throw new InvalidStockMovementException("Product cannot be null.");}
+    }
+
+    private void validateLocation(Location location) {
+        if (location == null) {throw new InvalidStockMovementException("Location cannot be null.");}
+    }
+
+    private void validateReason(StockMovementReason reason ) {
+        if (reason == null) {throw new InvalidStockMovementException("Stock movement reason cannot be null.");}
     }
 }
