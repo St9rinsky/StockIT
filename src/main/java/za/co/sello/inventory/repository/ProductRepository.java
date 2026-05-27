@@ -25,6 +25,12 @@ public class ProductRepository {
                 .findFirst();
     }
 
+    public Optional<Product> findBySku(String sku) {
+        return products.stream()
+                .filter(product -> product.getSku().equalsIgnoreCase(sku))
+                .findFirst();
+    }
+
     public boolean existsBySku(String sku) {
         return products.stream()
                 .anyMatch(product -> product.getSku().equalsIgnoreCase(sku));
