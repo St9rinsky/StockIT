@@ -41,7 +41,7 @@ class InventoryServiceTest {
                         location,
                         StockMovementReason.RESTOCK,
                         0,
-                        "Sello"
+                        new User("Sello",Role.ADMIN)
                 )
         );
     }
@@ -55,7 +55,7 @@ class InventoryServiceTest {
                         location,
                         StockMovementReason.RESTOCK,
                         -5,
-                        "Sello"
+                        new User("Sello",Role.ADMIN)
                 )
         );
     }
@@ -69,7 +69,7 @@ class InventoryServiceTest {
                         location,
                         StockMovementReason.RESTOCK,
                         10,
-                        " "
+                        new User(" ",Role.ADMIN)
                 )
         );
     }
@@ -83,7 +83,7 @@ class InventoryServiceTest {
                         location,
                         StockMovementReason.RESTOCK,
                         10,
-                        "Sello"
+                        new User("Sello",Role.ADMIN)
                 )
         );
     }
@@ -97,7 +97,7 @@ class InventoryServiceTest {
                         null,
                         StockMovementReason.RESTOCK,
                         10,
-                        "Sello"
+                        new User("Sello",Role.ADMIN)
                 )
         );
     }
@@ -111,7 +111,7 @@ class InventoryServiceTest {
                         location,
                         null,
                         10,
-                        "Sello"
+                        new User("Sello",Role.ADMIN)
                 )
         );
     }
@@ -123,7 +123,7 @@ class InventoryServiceTest {
                 location,
                 StockMovementReason.INITIAL_STOCK,
                 5,
-                "Sello"
+                new User("Sello",Role.ADMIN)
         );
 
         assertThrows(
@@ -133,7 +133,7 @@ class InventoryServiceTest {
                         location,
                         StockMovementReason.SALE,
                         10,
-                        "Sello"
+                        new User("Sello",Role.ADMIN)
                 )
         );
     }
