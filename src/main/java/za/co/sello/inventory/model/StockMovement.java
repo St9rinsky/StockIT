@@ -12,7 +12,7 @@ public class StockMovement {
     private StockMovementType movementType;
     private StockMovementReason movementReason;
     private int quantity;
-    private String createdBy;
+    private User createdBy;
     private LocalDateTime createdAt;
 
 
@@ -21,7 +21,7 @@ public class StockMovement {
                          StockMovementType movementType,
                          StockMovementReason movementReason,
                          int quantity,
-                         String createdBy) {
+                         User createdBy) {
 
         this.id = UUID.randomUUID();
 
@@ -62,7 +62,7 @@ public class StockMovement {
         return quantity;
     }
 
-    public String getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
@@ -78,7 +78,7 @@ public class StockMovement {
                 ", movementType=" + movementType +
                 ", movementReason=" + movementReason +
                 ", quantity=" + quantity +
-                ", createdBy='" + createdBy + '\'' +
+                ", createdBy='" + createdBy.getName() + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
     }
