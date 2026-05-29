@@ -39,16 +39,24 @@ public class InventoryServices {
                 ));
     }
 
+    //still needs validation
+    public void updateProductThreshold(String sku,int lowStockThreshold){
+        Product product = getProductBySku(sku);
+        product.setLowStockThreshold(lowStockThreshold);
+    }
+
     public StockMovement recordStockIn(Product product,
                                        Location location,
                                        StockMovementReason reason,
                                        int quantity,
-                                       String createdBy) {
+                                       User createdBy) {
         validateQuantity(quantity);
+        validateAdditionRights(createdBy);
         validateCreator(createdBy);
         validateProduct(product);
         validateLocation(location);
         validateReason(reason);
+        validateQuantity(quantity);
         StockMovement movement = new StockMovement(
                 product,
                 location,
@@ -66,7 +74,7 @@ public class InventoryServices {
                                         Location location,
                                         StockMovementReason reason,
                                         int quantity,
-                                        String createdBy) {
+                                        User createdBy) {
         validateQuantity(quantity);
         validateCreator(createdBy);
         validateProduct(product);
@@ -110,6 +118,11 @@ public class InventoryServices {
         return total;
     }
 
+    public boolean isLowStock(Product product, Location location) {
+        int currentStock = getCurrentStock(product.getId(), location.getId());
+        return currentStock <= product.getLowStockThreshold();
+    }
+
     public List<StockMovement> getMovementHistory(Product product) {
         List<StockMovement> history = new ArrayList<>();
 
@@ -128,8 +141,9 @@ public class InventoryServices {
         if (quantity <= 0) {throw new InvalidStockMovementException("Quantity must be greater than zero.");}
     }
 
-    private void validateCreator(String name) {
-        if (name == null || name.isBlank()) {throw new InvalidStockMovementException("Creator name cannot be null.");}
+    private void validateCreator(User user) {
+        if (user == null ) {throw new InvalidStockMovementException("Creator cannot be null.");}
+        if (user.getName().isBlank() ) {throw new InvalidStockMovementException("Creator cannot be null.");}
     }
 
     private void validateProduct(Product product) {
@@ -150,5 +164,9 @@ public class InventoryServices {
 
     private void validateReason(StockMovementReason reason ) {
         if (reason == null) {throw new InvalidStockMovementException("Stock movement reason cannot be null.");}
+    }
+
+    private void validateAdditionRights(User user) {
+        if (user.getRole().equals(Role.POS)) {throw new UnAuthorisedAccessException("Access Denied");}
     }
 }
