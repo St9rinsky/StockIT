@@ -7,16 +7,22 @@ public class Product {
     private String name;
     private String sku;
     private Category category;
+    private int lowStockThreshold;
     private boolean active;
 
-    public Product(String name, String sku, Category category) {
-        this.id = UUID.randomUUID();
+    public Product(UUID id,String name, String sku, Category category,Boolean active,int lowStockThreshold) {
+        this.id = id;
         this.name = name;
         this.sku = sku;
         this.category = category;
-        this.active = true;
+        this.lowStockThreshold = lowStockThreshold;
+        this.active = active;
+    }
+    public Product(String name, String sku, Category category) {
+        this(UUID.randomUUID(), name, sku, category,true,10);
     }
 
+    // getters
     public UUID getId() {
         return id;
     }
@@ -29,6 +35,10 @@ public class Product {
         return sku;
     }
 
+    public int getLowStockThreshold(){
+        return lowStockThreshold;
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -37,6 +47,7 @@ public class Product {
         return active;
     }
 
+    //state edits
     public void rename(String name) {
         this.name = name;
     }
@@ -47,6 +58,10 @@ public class Product {
 
     public void changeCategory(Category category) {
         this.category = category;
+    }
+
+    public void setLowStockThreshold(int lowStockThreshold){
+        this.lowStockThreshold = lowStockThreshold;
     }
 
     public void deactivate() {
@@ -64,6 +79,7 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", sku='" + sku + '\'' +
                 ", category=" + category +
+                "threshold=" + lowStockThreshold +
                 ", active=" + active +
                 '}';
     }
