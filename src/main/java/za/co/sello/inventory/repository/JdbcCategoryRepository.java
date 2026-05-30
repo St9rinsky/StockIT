@@ -84,7 +84,7 @@ public class JdbcCategoryRepository {
                 PreparedStatement statement = connection.prepareStatement(sql)
         ) {
 
-            statement.setString(1, id.toString());
+            statement.setObject(1, id);
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -132,5 +132,21 @@ public class JdbcCategoryRepository {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find category", e);
         }
+    }
+
+    public void removeByID(UUID id) {
+        String sql = """
+                DELETE FROM categories
+                WHERE id = ?
+                """;
+        try (
+                Connection connection = connectionFactory.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)
+        ){
+            statement.setObject(1, id);
+            statement.executeUpdate();
+
+        }catch (SQLException e) {
+            throw new RuntimeException("Failed to remove category", e);}
     }
 }
