@@ -29,7 +29,10 @@ public class User {
     public void updateRole(Role role){
         this.role = role;
     }
-    public void updateName(String name){this.name = name; }
+    public void changeName(String name){
+        if (name == null || name.isBlank()) throw new IllegalArgumentException("Name cannot be blank");
+        this.name = name;
+    }
 
     @Override
     public String toString() {
