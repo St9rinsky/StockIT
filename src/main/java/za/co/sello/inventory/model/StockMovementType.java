@@ -1,4 +1,8 @@
 package za.co.sello.inventory.model;
 
-public class StockMovementType {
+public enum StockMovementType {
+    IN,
+    OUT,
+    ADJUSTMENT, // editing
+    TRANSFER // moving between locations
 }
