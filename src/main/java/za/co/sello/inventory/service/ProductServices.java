@@ -63,6 +63,16 @@ public class ProductServices {
         productRepo.update(product);
     }
 
+    //change reorder level
+    public void changeReOderLevel(User currentUser,Product prod, int level){
+        //still needs more work but will do for now
+        requiredAccess(currentUser);
+        Product product = productFound(prod.getSKU());
+        product.setReorderLevel(level);
+        productRepo.update(product);
+
+    }
+
     // deactivate a product
     public void deactivateProduct(User currentUser, String productSKU){
         requiredAccess(currentUser);
