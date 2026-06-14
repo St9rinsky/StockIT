@@ -7,6 +7,7 @@ public class Product {
     private String SKU;
     private String name;
     private Category category;
+    private Location location;
     private boolean available;
     private int reorderLevel;
 
@@ -15,12 +16,14 @@ public class Product {
                    String SKU,
                    String name,
                    Category category,
+                   Location location,
                    boolean available,
                    int reorderLevel) {
         this.id = id;
         this.SKU = SKU;
         this.name = name;
         this.category = category;
+        this.location = location;
         this.available = available;
         this.reorderLevel = reorderLevel;
     }
@@ -28,8 +31,9 @@ public class Product {
     //new product
     public Product(String sku,
                    String name,
-                   Category category) {
-        this(UUID.randomUUID(), sku, name, category, false, 0);
+                   Category category,
+                    Location location) {
+        this(UUID.randomUUID(), sku, name, category,location, false, 0);
     }
 
     //getters
@@ -37,6 +41,7 @@ public class Product {
     public String getSKU() {return SKU;}
     public String getName() {return name;}
     public Category getCategory() {return category;}
+    public Location getLocation() {return location;}
     public boolean isAvailable() {return available;}
     public int getReorderLevel() {return reorderLevel;}
 
@@ -54,6 +59,11 @@ public class Product {
     public void changeCategory(Category category){
         if(category == null) throw new IllegalArgumentException("not a valid category");
         this.category = category;
+    }
+
+    public void setLocation(Location location) {
+        if(location == null) throw new IllegalArgumentException("not a valid location");
+        this.location = location;
     }
 
     public void makeAvailable(){this.available = true;}
