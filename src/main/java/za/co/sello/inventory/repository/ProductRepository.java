@@ -16,6 +16,7 @@ public interface ProductRepository {
     Optional<Product> findById(UUID id);
     Optional<Product> findBySku(String sku);
     List<Product> findByCategoryId(UUID categoryId);
+    List<Product> findByLocationId(UUID locationId);
 
     // Update
     void update(Product product);
