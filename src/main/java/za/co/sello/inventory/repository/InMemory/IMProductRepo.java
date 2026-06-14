@@ -44,6 +44,15 @@ public class IMProductRepo implements ProductRepository {
     }
 
     @Override
+    public List<Product> findByLocationId(UUID locationId) {
+        List<Product> selected = new ArrayList<>();
+        for(Product product: products){
+            if(product.getLocation().getId().equals(locationId)) selected.add(product);
+        }
+        return selected;
+    }
+
+    @Override
     public void update(Product product) {
         for(int i = 0; i < products.size(); i++) {
             Product current = products.get(i);
